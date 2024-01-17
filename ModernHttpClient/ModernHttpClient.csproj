@@ -1,10 +1,32 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;xamarin.ios10;monoandroid13.0</TargetFrameworks>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Class1.cs" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Platforms\Android\**\*.cs"/>
+        <Compile Remove="Platforms\iOS\**\*.cs"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework.StartsWith('monoandroid'))">
+        <Compile Include="Platforms\Android\**\*.cs"/>
+        <Compile Remove="Platforms\iOS\**\*.cs"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework.StartsWith('xamarin.ios'))">
+        <Compile Include="Platforms\iOS\**\*.cs"/>
+        <Compile Remove="Platforms\Android\**\*.cs"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework.StartsWith('monoandroid'))">
+        <PackageReference Include="Square.OkHttp3" Version="4.12.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework.StartsWith('xamarin.ios'))">
+        <PackageReference Include="BouncyCastle.Cryptography" Version="2.2.1"/>
+    </ItemGroup>
 </Project>
