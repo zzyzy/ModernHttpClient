@@ -6,11 +6,11 @@ using Java.Net;
 
 namespace ModernHttpClient
 {
-    public class NativeCookieHandler : CookieManager, Square.OkHttp3.ICookieJar
+    public class AndroidNativeCookieHandler : CookieManager,  Square.OkHttp3.ICookieJar, INativeCookieHandler
     {
         //readonly CookieManager cookieManager = new CookieManager();
 
-        public NativeCookieHandler()
+        public AndroidNativeCookieHandler()
         {
            CookieHandler.Default = this; //cookieManager; //set cookie manager if using NativeCookieHandler
         }

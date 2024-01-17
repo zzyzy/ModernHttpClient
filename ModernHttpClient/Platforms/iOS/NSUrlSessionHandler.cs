@@ -27,7 +27,7 @@ namespace ModernHttpClient
         public bool IsCompleted { get; set; }
     }
 
-    public class NativeMessageHandler : HttpClientHandler
+    public class NSNativeMessageHandler : NativeMessageHandler
     {
         readonly NSUrlSession session;
 
@@ -56,9 +56,9 @@ namespace ModernHttpClient
 
         public readonly string PinningMode = "CertificateOnly";
 
-        public NativeMessageHandler() : this(false, new TLSConfig()) { }
+        public NSNativeMessageHandler() : this(false, new TLSConfig()) { }
 
-        public NativeMessageHandler(bool throwOnCaptiveNetwork, TLSConfig tLSConfig, NativeCookieHandler cookieHandler = null, IWebProxy proxy = null)
+        public NSNativeMessageHandler(bool throwOnCaptiveNetwork, TLSConfig tLSConfig, INativeCookieHandler cookieHandler = null, IWebProxy proxy = null)
         {
             this.throwOnCaptiveNetwork = throwOnCaptiveNetwork;
 
@@ -282,9 +282,9 @@ namespace ModernHttpClient
 
         class DataTaskDelegate : NSUrlSessionDataDelegate, INSUrlSessionDelegate
         {
-            NativeMessageHandler nativeHandler { get; set; }
+            NSNativeMessageHandler nativeHandler { get; set; }
 
-            public DataTaskDelegate(NativeMessageHandler handler)
+            public DataTaskDelegate(NSNativeMessageHandler handler)
             {
                 this.nativeHandler = handler;
             }

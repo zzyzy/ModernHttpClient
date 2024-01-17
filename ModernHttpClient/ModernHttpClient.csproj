@@ -7,6 +7,14 @@
         <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
+    <PropertyGroup Condition="$(TargetFramework.StartsWith('monoandroid'))">
+        <DefineConstants>ANDROID</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(TargetFramework.StartsWith('xamarin.ios'))">
+        <DefineConstants>IOS</DefineConstants>
+    </PropertyGroup>
+
     <ItemGroup>
         <Compile Remove="Platforms\Android\**\*.cs"/>
         <Compile Remove="Platforms\iOS\**\*.cs"/>

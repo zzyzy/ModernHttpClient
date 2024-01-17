@@ -5,7 +5,7 @@ using Foundation;
 
 namespace ModernHttpClient
 {
-    public class NativeCookieHandler
+    public class NSNativeCookieHandler : INativeCookieHandler
     {
         public void SetCookies(IEnumerable<Cookie> cookies)
         {

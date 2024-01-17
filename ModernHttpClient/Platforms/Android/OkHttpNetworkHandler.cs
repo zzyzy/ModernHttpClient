@@ -20,7 +20,7 @@ using Square.OkHttp3;
 
 namespace ModernHttpClient
 {
-    public class NativeMessageHandler : HttpClientHandler
+    public class AndroidNativeMessageHandler : NativeMessageHandler
     {
         OkHttpClient client = new OkHttpClient();
         readonly CacheControl noCacheCacheControl = new CacheControl.Builder().NoCache().Build();
@@ -45,9 +45,9 @@ namespace ModernHttpClient
 
         public readonly string PinningMode = "CertificateOnly";
 
-        public NativeMessageHandler() : this(false, new TLSConfig()) { }
+        public AndroidNativeMessageHandler() : this(false, new TLSConfig()) { }
 
-        public NativeMessageHandler(bool throwOnCaptiveNetwork, TLSConfig tLSConfig, NativeCookieHandler cookieHandler = null, IWebProxy proxy = null)
+        public AndroidNativeMessageHandler(bool throwOnCaptiveNetwork, TLSConfig tLSConfig, INativeCookieHandler cookieHandler = null, IWebProxy proxy = null)
         {
             this.throwOnCaptiveNetwork = throwOnCaptiveNetwork;
 
@@ -89,7 +89,7 @@ namespace ModernHttpClient
             // Set client credentials
             SetClientCertificate(TLSConfig.ClientCertificate);
 
-            if (cookieHandler != null) clientBuilder.CookieJar(cookieHandler);
+            if (cookieHandler != null) clientBuilder.CookieJar(cookieHandler as ICookieJar);
 
             // Adding proxy support
             if (proxy != null && proxy is WebProxy)
@@ -412,9 +412,9 @@ namespace ModernHttpClient
 
         public static string PinningFailureMessage = null;
 
-        NativeMessageHandler nativeHandler { get; set; }
+        AndroidNativeMessageHandler nativeHandler { get; set; }
 
-        public HostnameVerifier(NativeMessageHandler handler)
+        public HostnameVerifier(AndroidNativeMessageHandler handler)
         {
             this.nativeHandler = handler;
         }
