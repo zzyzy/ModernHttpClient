@@ -118,7 +118,7 @@ namespace ModernHttpClient
                 sslContext.Init(KeyManagers, new ITrustManager[] { trustManager }, new SecureRandom());
                 // Create an ssl socket factory with our all-trusting manager
                 var sslSocketFactory = sslContext.SocketFactory;
-                clientBuilder.SocketFactory(sslSocketFactory);
+                clientBuilder.SslSocketFactory(sslSocketFactory, trustManager);
             }
             else
             {
@@ -126,12 +126,12 @@ namespace ModernHttpClient
                 if (Build.VERSION.SdkInt < BuildVersionCodes.Lollipop)
                 {
                     // Support TLS1.2 on Android versions before Lollipop
-                    clientBuilder.SocketFactory(new TlsSslSocketFactory());
+                    clientBuilder.SslSocketFactory(new TlsSslSocketFactory(), TlsSslSocketFactory.GetSystemDefaultTrustManager());
                 }
                 else
                 {
                     sslContext.Init(KeyManagers, null, null);
-                    clientBuilder.SocketFactory(sslContext.SocketFactory);
+                    clientBuilder.SslSocketFactory(sslContext.SocketFactory, TlsSslSocketFactory.GetSystemDefaultTrustManager());
                 }
             }
 
